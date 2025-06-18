@@ -46,7 +46,7 @@ const UserRegister = () => {
                 <p className="text-gray-300 mt-2">Create a new account</p>
             </div>
             <form onSubmit={handleSubmit}>
-                <div className="mb-4">
+                <div className="mb-4  ">
                     <label htmlFor="username" className="block text-gray-300 text-sm font-medium mb-2">Username</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
