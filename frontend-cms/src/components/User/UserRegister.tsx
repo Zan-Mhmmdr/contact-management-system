@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { alertError, alertSuccess } from "../../lib/alert";
 import userRegister from "../../lib/api/UserApi";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const UserRegister = () => {
     const [username, setUsername] = useState('')
@@ -89,7 +89,7 @@ const UserRegister = () => {
                 </div>
                 <div className="text-center text-sm text-gray-400">
                     Already have an account?
-                    <a href="index.html" className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200">Sign in</a>
+                    <Link to="/login" className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"> Sign in</Link>
                 </div>
             </form>
         </div>
