@@ -9,4 +9,4 @@ const userRegister = async (user: { username: string, name: string, password: st
 
 }
 
-export default userRegister;
+export default userRegister; 
