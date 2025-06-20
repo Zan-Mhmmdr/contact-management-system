@@ -53,3 +53,13 @@ export const userUpdatePassword = async (token: any, password: string) => {
         body: JSON.stringify(password),
     })
 }
+
+export const userLogout = async (token: any) => {
+    return await fetch(`${import.meta.env.VITE_API_PATH}/users/logout`, {
+        method: 'DELETE',
+        headers: {
+            'content-type': 'application/json',
+            'Accept': 'application/json',
+        }, 
+    })
+}
