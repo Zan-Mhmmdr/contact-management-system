@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { userDetail } from "../../lib/api/UserApi"
+import { userDetail, userUpdatePassword, userUpdateProfile } from "../../lib/api/UserApi"
 import { useLocalStorage, useEffectOnce } from "react-use";
-import { alertError } from "../../lib/alert";
+import { alertError, alertSuccess } from "../../lib/alert";
 
 const UserProfile = () => {
     const [name, setName] = useState('')
@@ -28,6 +28,41 @@ const UserProfile = () => {
             })
     })
 
+    const handleSubmitProfile = async (e: React.FormEvent) => {
+        e.preventDefault()
+
+        const response = await userUpdateProfile(token, name)
+
+        const responseBody = await response.json()
+        console.log(responseBody)
+
+        if (response.status === 200) {
+            await alertSuccess('Password updated successfully')
+        } else {
+            await alertError(responseBody.errors)
+        }
+    }
+
+    const handleSubmitPassword = async (e: React.FormEvent) => {
+        e.preventDefault()
+
+        if (password !== confirmPassword) {
+            await alertError('Passwords do not match')
+        }
+
+        const response = await userUpdatePassword(token, password)
+        const responseBody = await response.json()
+        console.log(responseBody)
+
+        if (response.status === 200) {
+            setPassword('')
+            setConfirmPassword('')
+            await alertError('Password updated successfully')
+        } else {
+            await alertError(responseBody.errors)
+        }
+    }
+
     return (
         <>
             <div>
@@ -45,7 +80,7 @@ const UserProfile = () => {
                                 </div>
                                 <h2 className="text-xl font-semibold text-white">Edit Profile</h2>
                             </div>
-                            <form>
+                            <form onSubmit={handleSubmitProfile}>
                                 <div className="mb-5">
                                     <label htmlFor="name" className="block text-gray-300 text-sm font-medium mb-2">Full Name</label>
                                     <div className="relative">
@@ -72,7 +107,7 @@ const UserProfile = () => {
                                 </div>
                                 <h2 className="text-xl font-semibold text-white">Change Password</h2>
                             </div>
-                            <form>
+                            <form onSubmit={handleSubmitPassword}>
                                 <div className="mb-5">
                                     <label htmlFor="new_password" className="block text-gray-300 text-sm font-medium mb-2">New Password</label>
                                     <div className="relative">
