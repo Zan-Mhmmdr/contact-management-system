@@ -28,7 +28,6 @@ const UserLogout = () => {
             .then(() => console.log("User logged out successfully"))
     })
 
-
     return (
         <></>
     )

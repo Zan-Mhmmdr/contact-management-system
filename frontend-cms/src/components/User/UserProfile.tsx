@@ -48,6 +48,7 @@ const UserProfile = () => {
 
         if (password !== confirmPassword) {
             await alertError('Passwords do not match')
+            return
         }
 
         const response = await userUpdatePassword(token, password)
@@ -57,7 +58,7 @@ const UserProfile = () => {
         if (response.status === 200) {
             setPassword('')
             setConfirmPassword('')
-            await alertError('Password updated successfully')
+            await alertSuccess('Password updated successfully')
         } else {
             await alertError(responseBody.errors)
         }

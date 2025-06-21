@@ -38,7 +38,7 @@ export const userUpdateProfile = async (token: any, username: string) => {
             'Accept': 'application/json',
             'Authorization': token
         },
-        body: JSON.stringify(username),
+        body: JSON.stringify({username}),
     })
 }
 
@@ -50,7 +50,7 @@ export const userUpdatePassword = async (token: any, password: string) => {
             'Accept': 'application/json',
             'Authorization': token
         },
-        body: JSON.stringify(password),
+        body: JSON.stringify({password}),
     })
 }
 
@@ -60,6 +60,6 @@ export const userLogout = async (token: any) => {
         headers: {
             'content-type': 'application/json',
             'Accept': 'application/json',
-        }, 
+        },
     })
 }
