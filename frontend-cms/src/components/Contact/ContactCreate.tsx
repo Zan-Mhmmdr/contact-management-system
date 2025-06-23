@@ -5,9 +5,7 @@ import { useLocalStorage } from "react-use"
 import { alertError, alertSuccess } from "../../lib/alert"
 
 
-
 const ContactCreate = () => {
-
 
     const [token, _] = useLocalStorage('token')
     const [first_name, setFirstName] = useState('')
@@ -15,13 +13,6 @@ const ContactCreate = () => {
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
     const navigate = useNavigate()
-
-    type ContactData = {
-        first_name: string;
-        last_name: string;
-        email: string;
-        phone: string;
-    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()

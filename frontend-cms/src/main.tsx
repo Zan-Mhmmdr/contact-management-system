@@ -8,6 +8,7 @@ import DashboardLayout from './components/DashboardLayout'
 import UserProfile from './components/User/UserProfile'
 import UserLogout from './components/User/UserLogout'
 import ContactCreate from './components/Contact/ContactCreate'
+import ContactList from './components/Contact/ContactList'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -16,7 +17,7 @@ createRoot(document.getElementById('root')!).render(
         <Route element={<Layout />}>
           <Route path='/register' element={<UserRegister />} />
           <Route path='/login' element={<UserLogin />} />
-        </Route> 
+        </Route>
         <Route path='/dashboard' element={<DashboardLayout />}>
 
           <Route path='users'>
@@ -25,10 +26,9 @@ createRoot(document.getElementById('root')!).render(
           </Route>
 
           <Route path='contacts'>
-            <Route index element={<div className='text-white'>Contact</div>} />
+            <Route index element={<ContactList />} />
             <Route path='create' element={<ContactCreate />} />
           </Route>
-
         </Route>
       </Routes>
     </BrowserRouter>

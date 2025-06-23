@@ -6,12 +6,13 @@ type dataContact = {
 }
 
 export const contactCreate = async (token: any, contact: dataContact) => {
-    return await fetch(`${import.meta.env.VITE_API_PATH}/contacts`), {
+    return await fetch(`${import.meta.env.VITE_API_PATH}/contacts`, {
         method: 'POST',
-        Headers: {
+        headers: {
             'Content-Type': 'application/json',
             'Authorization': token
         },
         body: JSON.stringify({ contact })
     }
+    )
 }
