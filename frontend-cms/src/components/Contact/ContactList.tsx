@@ -1,48 +1,75 @@
-import { useEffectOnce } from "react-use";
+import { useEffect, useState } from "react";
+import { useEffectOnce, useLocalStorage } from "react-use";
+import { contactList } from "../../lib/api/ContactApi";
+import { alertError } from "../../lib/alert";
+import { Link } from "react-router";
 
 const ContactList = () => {
+
+    const [token, _] = useLocalStorage('token')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [phone, setPhone] = useState('')
+    const [page, setPage] = useState(1)
+    const [contact, setContact] = useState([])
+
+    const fetctContacts = async () => {
+        const response = await contactList(token, { name, email, phone, page });
+        const responseBody = await response.json()
+
+        if (response.status === 200) {
+            setContact(responseBody.data);
+        } else {
+            await alertError(responseBody.errors)
+        }
+    }
+
+    useEffect(() => {
+        fetctContacts()
+            .then(() => console.log('Contacts fetched successfully'))
+    }, [])
 
 
 
     useEffectOnce(() => {
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggleButton = document.getElementById('toggleSearchForm');
-            const searchFormContent = document.getElementById('searchFormContent');
-            const toggleIcon = document.getElementById('toggleSearchIcon');
+        const toggleButton = document.getElementById('toggleSearchForm');
+        const searchFormContent = document.getElementById('searchFormContent');
+        const toggleIcon = document.getElementById('toggleSearchIcon');
 
-            // Add transition for smooth animation
-            searchFormContent.style.transition = 'max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, margin 0.3s ease-in-out';
-            searchFormContent.style.overflow = 'hidden';
-            searchFormContent.style.maxHeight = '0px';
-            searchFormContent.style.opacity = '0';
-            searchFormContent.style.marginTop = '0';
+        if (!toggleButton || !searchFormContent || !toggleIcon) return;
 
-            function toggleSearchForm() {
-                if (searchFormContent.style.maxHeight !== '0px') {
-                    // Hide the form
-                    searchFormContent.style.maxHeight = '0px';
-                    searchFormContent.style.opacity = '0';
-                    searchFormContent.style.marginTop = '0';
-                    toggleIcon.classList.remove('fa-chevron-up');
-                    toggleIcon.classList.add('fa-chevron-down');
-                } else {
-                    // Show the form
-                    searchFormContent.style.maxHeight = searchFormContent.scrollHeight + 'px';
-                    searchFormContent.style.opacity = '1';
-                    searchFormContent.style.marginTop = '1rem';
-                    toggleIcon.classList.remove('fa-chevron-down');
-                    toggleIcon.classList.add('fa-chevron-up');
-                }
+        searchFormContent.style.transition = 'max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, margin 0.3s ease-in-out';
+        searchFormContent.style.overflow = 'hidden';
+        searchFormContent.style.maxHeight = '0px';
+        searchFormContent.style.opacity = '0';
+        searchFormContent.style.marginTop = '0';
+
+        function toggleSearchForm() {
+            const isVisible = searchFormContent.style.maxHeight !== '0px';
+
+            if (isVisible) {
+                // Hide the form
+                searchFormContent.style.maxHeight = '0px';
+                searchFormContent.style.opacity = '0';
+                searchFormContent.style.marginTop = '0';
+                toggleIcon.classList.remove('fa-chevron-up');
+                toggleIcon.classList.add('fa-chevron-down');
+            } else {
+                // Show the form
+                searchFormContent.style.maxHeight = searchFormContent.scrollHeight + 'px';
+                searchFormContent.style.opacity = '1';
+                searchFormContent.style.marginTop = '1rem';
+                toggleIcon.classList.remove('fa-chevron-down');
+                toggleIcon.classList.add('fa-chevron-up');
             }
+        }
 
-            toggleButton.addEventListener('click',);
+        toggleButton.addEventListener('click', toggleSearchForm);
 
-
-            return () => {
-                toggleButton.removeEventListener('click', toggleSearchForm);
-            }
-        });
-    })
+        return () => {
+            toggleButton.removeEventListener('click', toggleSearchForm);
+        };
+    });
 
     return (
         <>
@@ -105,7 +132,7 @@ const ContactList = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {/* Create New Contact Card */}
                     <div className="bg-gray-800 bg-opacity-80 rounded-xl shadow-custom overflow-hidden border-2 border-dashed border-gray-700 card-hover animate-fade-in">
-                        <a href="create_contact.html" className="block p-6 h-full">
+                        <Link to="create" className="block p-6 h-full">
                             <div className="flex flex-col items-center justify-center h-full text-center">
                                 <div className="w-20 h-20 bg-gradient rounded-full flex items-center justify-center mb-5 shadow-lg transform transition-transform duration-300 hover:scale-110">
                                     <i className="fas fa-user-plus text-3xl text-white" />
@@ -113,7 +140,7 @@ const ContactList = () => {
                                 <h2 className="text-xl font-semibold text-white mb-3">Create New Contact</h2>
                                 <p className="text-gray-300">Add a new contact to your list</p>
                             </div>
-                        </a>
+                        </Link>
                     </div>
                     {/* Contact Card 1 */}
                     <div className="bg-gray-800 bg-opacity-80 rounded-xl shadow-custom border border-gray-700 overflow-hidden card-hover animate-fade-in">
