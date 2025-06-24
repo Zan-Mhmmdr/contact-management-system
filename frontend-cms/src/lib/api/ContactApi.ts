@@ -19,7 +19,7 @@ export const contactCreate = async (token: any, contact: dataContact) => {
             'Content-Type': 'application/json',
             'Authorization': token
         },
-        body: JSON.stringify({ contact })
+        body: JSON.stringify(contact)
     }
     )
 }
@@ -27,17 +27,16 @@ export const contactCreate = async (token: any, contact: dataContact) => {
 export const contactList = async (token: any, contact: contactListData) => {
     const url = new URL(`${import.meta.env.VITE_API_PATH}/contacts`);
 
-    if (name) url.searchParams.append('name', contact.name)
-    if (phone) url.searchParams.append('phone', contact.phone)
-    if (email) url.searchParams.append('email', contact.email)
-    if (page) url.searchParams.append('page', contact.page.toString())
+    if (contact.name) url.searchParams.append('name', contact.name);
+    if (contact.phone) url.searchParams.append('phone', contact.phone);
+    if (contact.email) url.searchParams.append('email', contact.email);
+    if (contact.page) url.searchParams.append('page', contact.page.toString());
 
-    return await fetch(url, {
+    return await fetch(url.toString(), {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': token,
         },
-    }
-    )
-}
+    });
+};
