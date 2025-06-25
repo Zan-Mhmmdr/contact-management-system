@@ -6,11 +6,12 @@ type dataContact = {
 }
 
 type contactListData = {
-    name: string;
-    phone: string;
-    email: string;
-    page: number;
-}
+    name?: string;
+    phone?: string;
+    email?: string;
+    page?: number;
+};
+
 
 export const contactCreate = async (token: any, contact: dataContact) => {
     return await fetch(`${import.meta.env.VITE_API_PATH}/contacts`, {
