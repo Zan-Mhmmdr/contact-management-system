@@ -11,13 +11,20 @@ const ContactList = () => {
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
     const [page, setPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(1)
     const [contacts, setContacts] = useState([])
 
-    const getPages() => {
-        const pages = [];
-        for (let i = 1; i <= pages; i++) {
+    const handlePageChange = async (page: number) => {
+        setPage(page);
+        await fetchContacts()
+    }
+
+    const getPages = () => {
+        const pages = []
+        for (let i = 1; i <= totalPages; i++) {
             pages.push(i);
         }
+        return pages
     }
 
     const handleSearchContacts = async (e) => {
@@ -33,6 +40,7 @@ const ContactList = () => {
 
         if (response.status === 200) {
             setContacts(responseBody.data);
+            setTotalPages(responseBody.paging.total_page);
         } else {
             await alertError(responseBody.errors)
         }
@@ -210,21 +218,26 @@ const ContactList = () => {
                 {/* Pagination */}
                 <div className="mt-10 flex justify-center">
                     <nav className="flex items-center space-x-3 bg-gray-800 bg-opacity-80 rounded-xl shadow-custom border border-gray-700 p-3 animate-fade-in">
-                        <Link to="#" className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 flex items-center">
-                            <i className="fas fa-chevron-left mr-2" /> Previous
-                        </Link>
-                        <Link to="#" className="px-4 py-2 bg-gradient text-white rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 font-medium shadow-md">
-                            1
-                        </Link>
-                        <Link to="#" className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200">
-                            2
-                        </Link>
-                        <Link to="#" className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200">
-                            3
-                        </Link>
-                        <Link to="#" className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 flex items-center">
-                            Next <i className="fas fa-chevron-right ml-2" />
-                        </Link>
+                        {page > 1 &&
+                            <Link to="#" onClick={() => handlePageChange(page - 1)} className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 flex items-center">
+                                <i className="fas fa-chevron-left mr-2" /> Previous
+                            </Link>}
+                        {getPages().map((pageNumber: number) => {
+                            if (pageNumber === page) {
+                                return <Link to="#" onClick={() => setPage(pageNumber)} className="px-4 py-2 bg-gradient text-white rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 font-medium shadow-md">
+                                    {pageNumber}
+                                </Link>
+                            } else {
+                                return <Link to="#" onClick={() => setPage(pageNumber)} className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200">
+                                    {pageNumber}
+                                </Link>
+                            }
+                        })}
+
+                        {page < totalPages &&
+                            <Link to="#" onClick={() => setPage(page + 1)} className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 flex items-center">
+                                Next <i className="fas fa-chevron-right ml-2" />
+                            </Link>}
                     </nav>
                 </div>
             </main>
