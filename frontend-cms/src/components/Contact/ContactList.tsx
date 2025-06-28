@@ -13,10 +13,11 @@ const ContactList = () => {
     const [page, setPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
     const [contacts, setContacts] = useState([])
+    const [reload, setReload] = useState(false)
 
     const handlePageChange = async (page: number) => {
         setPage(page);
-        await fetchContacts()
+        setReload(!reload)
     }
 
     const getPages = () => {
@@ -30,7 +31,7 @@ const ContactList = () => {
     const handleSearchContacts = async (e) => {
         e.preventDefault()
         setPage(1) // Reset page to 1 on new search
-        await fetchContacts()
+        setReload(!reload)
     }
 
     const fetchContacts = async () => {
@@ -49,9 +50,7 @@ const ContactList = () => {
     useEffect(() => {
         fetchContacts()
             .then(() => console.log('Contacts fetched successfully'))
-    }, [])
-
-
+    }, [reload])
 
     useEffectOnce(() => {
         const toggleButton = document.getElementById('toggleSearchForm');
@@ -224,18 +223,18 @@ const ContactList = () => {
                             </Link>}
                         {getPages().map((pageNumber: number) => {
                             if (pageNumber === page) {
-                                return <Link to="#" onClick={() => setPage(pageNumber)} className="px-4 py-2 bg-gradient text-white rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 font-medium shadow-md">
+                                return <Link to="#" onClick={() => handlePageChange(pageNumber)} className="px-4 py-2 bg-gradient text-white rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 font-medium shadow-md">
                                     {pageNumber}
                                 </Link>
                             } else {
-                                return <Link to="#" onClick={() => setPage(pageNumber)} className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200">
+                                return <Link to="#" onClick={() => handlePageChange(pageNumber)} className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200">
                                     {pageNumber}
                                 </Link>
                             }
                         })}
 
                         {page < totalPages &&
-                            <Link to="#" onClick={() => setPage(page + 1)} className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 flex items-center">
+                            <Link to="#" onClick={() => handlePageChange(page + 1)} className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 flex items-center">
                                 Next <i className="fas fa-chevron-right ml-2" />
                             </Link>}
                     </nav>

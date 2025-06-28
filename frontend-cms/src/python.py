@@ -18,3 +18,13 @@ class Monster():
 yurivinee = Hero("Yurivinee", "Fireball")    
 serie = Monster("Serie", 'lightning')
 yurivinee.attack(serie)
+
+mc_anime = ['Frieren', 'Yurivinee', 'Serie', 'Sakura', 'Naruto', 'Luffy', 'Zoro', 'Goku', 'Vegeta', 'Kenshin']
+def show_mc_anime():
+    result =  []
+    for x in mc_anime:
+        result.append(x)
+
+    return result
+
+print(f"Main characters in anime: {show_mc_anime()}")
