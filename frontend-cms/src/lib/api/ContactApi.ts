@@ -41,3 +41,13 @@ export const contactList = async (token: any, contact: contactListData) => {
         },
     });
 };
+
+export const contactDelete = async (token: any, contactId: number) => {
+    return await fetch(`${import.meta.env.VITE_API_PATH}/contacts/${contactId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    })
+}

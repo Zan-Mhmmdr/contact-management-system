@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useEffectOnce, useLocalStorage } from "react-use";
-import { contactList } from "../../lib/api/ContactApi";
-import { alertError } from "../../lib/alert";
+import { contactDelete, contactList } from "../../lib/api/ContactApi";
+import { alertConfirm, alertError, alertSuccess } from "../../lib/alert";
 import { Link } from "react-router";
 
 const ContactList = () => {
@@ -44,6 +44,23 @@ const ContactList = () => {
             setTotalPages(responseBody.paging.total_page);
         } else {
             await alertError(responseBody.errors)
+        }
+    }
+
+    const handleContactDelete = async (contactId: number) => {
+        if (!await alertConfirm('Are you sure you want to delete this contact?')) {
+            return
+        }
+
+        const response = await contactDelete(token, contactId);
+        const responseBody = await response.json()
+        console.log(responseBody)
+
+        if (response.status === 200) {
+            await alertSuccess('Contact deleted successfully!')
+            setReload(!reload)
+        } else {
+            await alertError(responseBody.errors || 'Failed to delete contact. Please try again.')
         }
     }
 
@@ -203,7 +220,7 @@ const ContactList = () => {
                                         <Link to={`/dashboard/contacts/${contact.id}/edit`} className="px-4 py-2 bg-gradient text-white rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 font-medium shadow-md flex items-center">
                                             <i className="fas fa-edit mr-2" /> Edit
                                         </Link>
-                                        <button className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 font-medium shadow-md flex items-center">
+                                        <button onClick={() => handleContactDelete(contact.id)} className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 font-medium shadow-md flex items-center">
                                             <i className="fas fa-trash-alt mr-2" /> Delete
                                         </button>
                                     </div>
@@ -223,11 +240,11 @@ const ContactList = () => {
                             </Link>}
                         {getPages().map((pageNumber: number) => {
                             if (pageNumber === page) {
-                                return <Link to="#" onClick={() => handlePageChange(pageNumber)} className="px-4 py-2 bg-gradient text-white rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 font-medium shadow-md">
+                                return <Link key={pageNumber} to="#" onClick={() => handlePageChange(pageNumber)} className="px-4 py-2 bg-gradient text-white rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 font-medium shadow-md">
                                     {pageNumber}
                                 </Link>
                             } else {
-                                return <Link to="#" onClick={() => handlePageChange(pageNumber)} className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200">
+                                return <Link key={pageNumber} to="#" onClick={() => handlePageChange(pageNumber)} className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200">
                                     {pageNumber}
                                 </Link>
                             }
