@@ -1,4 +1,5 @@
 type dataContact = {
+    id?: number
     first_name: string;
     last_name: string;
     email: string;
@@ -16,6 +17,17 @@ type contactListData = {
 export const contactCreate = async (token: any, contact: dataContact) => {
     return await fetch(`${import.meta.env.VITE_API_PATH}/contacts`, {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        },
+        body: JSON.stringify(contact)
+    }
+    )
+}
+export const contactUpdate = async( token: any, contact: dataContact) => {
+    return await fetch(`${import.meta.env.VITE_API_PATH}/contacts/${contact.id}`, {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': token
@@ -45,6 +57,15 @@ export const contactList = async (token: any, contact: contactListData) => {
 export const contactDelete = async (token: any, contactId: number) => {
     return await fetch(`${import.meta.env.VITE_API_PATH}/contacts/${contactId}`, {
         method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    })
+}
+export const contactDetail = async (token: any, contactId: number) => {
+    return await fetch(`${import.meta.env.VITE_API_PATH}/contacts/${contactId}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': token
