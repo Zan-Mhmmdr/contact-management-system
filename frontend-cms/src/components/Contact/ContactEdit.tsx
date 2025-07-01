@@ -8,7 +8,21 @@ const ContactEdit = () => {
     const [email, setEmail] = useState<string>('');
     const [phone, setPhone] = useState('')
 
-    const fetchContact
+    const fetchContact = async () => {
+        try {
+            const response = await fetch(`/api/contacts/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch contact');
+            }
+            const data = await response.json();
+            setFirstName(data.first_name);
+            setLastName(data.last_name);
+            setEmail(data.email);
+            setPhone(data.phone);
+        } catch (error) {
+            console.error('Error fetching contact:', error);
+        }
+    }
 
     return (
         <>
