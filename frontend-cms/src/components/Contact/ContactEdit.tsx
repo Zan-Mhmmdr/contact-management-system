@@ -9,20 +9,24 @@ const ContactEdit = () => {
     const [phone, setPhone] = useState('')
 
     const fetchContact = async () => {
-        try {
-            const response = await fetch(`/api/contacts/${id}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch contact');
-            }
-            const data = await response.json();
-            setFirstName(data.first_name);
-            setLastName(data.last_name);
-            setEmail(data.email);
-            setPhone(data.phone);
-        } catch (error) {
-            console.error('Error fetching contact:', error);
+        const response = await fetch(`/api/contacts/${id}`);
+
+        if (!response.ok) {
+            return console.error('Failed to fetch contact');
         }
-    }
+
+        response.json()
+            .then(data => {
+                setFirstName(data.first_name);
+                setLastName(data.last_name);
+                setEmail(data.email);
+                setPhone(data.phone);
+            })
+            .catch(error => {
+                console.error('Error parsing JSON:', error);
+            });
+    };
+
 
     return (
         <>
