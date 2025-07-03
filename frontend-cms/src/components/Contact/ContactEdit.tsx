@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
+import { contactDetail, contactUpdate } from "../../lib/api/ContactApi";
+import { useEffectOnce, useLocalStorage } from "react-use";
+import { alertError, alertSuccess } from "../../lib/alert";
 
 const ContactEdit = () => {
     const { id } = useParams<{ id: string }>();
@@ -7,26 +10,43 @@ const ContactEdit = () => {
     const [last_name, setLastName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [phone, setPhone] = useState('')
+    const [token, _] = useLocalStorage('token')
 
     const fetchContact = async () => {
-        const response = await fetch(`/api/contacts/${id}`);
+        const response = await contactDetail(token, id);
+        const responseBody = await response.json();
 
-        if (!response.ok) {
-            return console.error('Failed to fetch contact');
+        if (response.status === 200) {
+            setFirstName(responseBody.data.first_name);
+            setLastName(responseBody.data.last_name);
+            setEmail(responseBody.data.email);
+            setPhone(responseBody.data.phone);
+        } else {
+            await alertError(responseBody.errors)
         }
-
-        response.json()
-            .then(data => {
-                setFirstName(data.first_name);
-                setLastName(data.last_name);
-                setEmail(data.email);
-                setPhone(data.phone);
-            })
-            .catch(error => {
-                console.error('Error parsing JSON:', error);
-            });
     };
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const response = await contactUpdate(token, { id: parseInt(id), first_name, last_name, email, phone });
+        const responseBody = await response.json();
+        console.log(responseBody);
+
+        if (response.status === 200) {
+            await alertSuccess('Contact updated successfully');
+        } else {
+            await alertError(responseBody.errors);  
+        }
+    }
+
+    useEffectOnce(() => {
+        fetchContact()
+            .then(() => {
+                console.log('Contact fetched successfully');
+            })
+    }
+    )
 
     return (
         <>
@@ -41,7 +61,7 @@ const ContactEdit = () => {
                 </div>
                 <div className="bg-gray-800 bg-opacity-80 rounded-xl shadow-custom border border-gray-700 overflow-hidden max-w-2xl mx-auto animate-fade-in">
                     <div className="p-8">
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                                 <div>
                                     <label htmlFor="first_name" className="block text-gray-300 text-sm font-medium mb-2">First Name</label>
