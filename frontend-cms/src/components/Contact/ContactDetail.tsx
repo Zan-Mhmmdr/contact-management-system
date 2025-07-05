@@ -7,7 +7,7 @@ import { alertError } from "../../lib/alert";
 const ContactDetail = () => {
 
     const { id } = useParams();
-    const [contact, setContact] = useState<any>(null);
+    const [contact, setContact] = useState<any>({});
     const [token, _] = useLocalStorage('token');
 
     const fetchContact = async () => {
