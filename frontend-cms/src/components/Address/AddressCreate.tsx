@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useEffectOnce, useLocalStorage } from "react-use";
 import { contactDetail } from "../../lib/api/ContactApi";
 import { addressesCreate } from "../../lib/api/AddressesApi";
@@ -15,9 +15,8 @@ const AddressCreate = () => {
     const [country, setCountry] = useState('');
     const [postal_code, setPostalCode] = useState('');
     const [token, _] = useLocalStorage('token');
-    const navigate = useNavigate()
 
-    const address = {
+    const update = {
         street,
         city,
         province,
@@ -28,7 +27,7 @@ const AddressCreate = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const response = await addressesCreate(token, id, address)
+        const response = await addressesCreate(token, id, update)
         const responseBody = await response.json();
         console.log(responseBody);
 
@@ -38,11 +37,7 @@ const AddressCreate = () => {
             setProvince('');
             setCountry('');
             setPostalCode(0);
-            await alertSuccess('Address created successfully!');
-            await navigate({
-                pathname: `/dashboard/contacts/${id}`,
-            })
-
+            await alertSuccess('Address updated successfully!');
         } else {
             await alertError(responseBody.errors)
         }
@@ -55,6 +50,7 @@ const AddressCreate = () => {
 
         if (response.status === 200) {
             setContact(responseBody.data);
+            await alertSuccess('Contact fetched successfully!');
         } else {
             await alertError(responseBody.errors);
         }

@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router"
 import { useEffectOnce, useLocalStorage } from "react-use";
 import { alertError, alertSuccess } from "../../lib/alert";
 import { contactDetail } from "../../lib/api/ContactApi";
+import { addressesDetail, addressUpdate } from "../../lib/api/AddressesApi";
 
 const AddressEdit = () => {
 
@@ -16,18 +17,19 @@ const AddressEdit = () => {
     const [token, _] = useLocalStorage('token');
     const navigate = useNavigate()
 
-    const address = {
+    const AddressUpdate = {
+        id: addressId,
         street,
         city,
         province,
+        postal_code,
         country,
-        postal_code
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const response = await addressesCreate(token, id, address)
+        const response = await addressUpdate(token, id, AddressUpdate)
         const responseBody = await response.json();
         console.log(responseBody);
 
@@ -59,10 +61,32 @@ const AddressEdit = () => {
         }
     }
 
+    const fetchAddress = async () => {
+        const response = await addressesDetail(token, id, addressId);
+        const reponseBody = await response.json();
+        console.log(reponseBody);
+
+
+        if (response.status === 200) {
+            setStreet(reponseBody.data.street);
+            setCity(reponseBody.data.city);
+            setProvince(reponseBody.data.province);
+            setCountry(reponseBody.data.country);
+            setPostalCode(reponseBody.data.postal_code);
+        } else {
+            await alertError(reponseBody.errors);
+        }
+    }
+
     useEffectOnce(() => {
         fetchContact()
             .then(() => {
-                console.log('Contact fetched successfully');
+                console.log('Edit Address fetched successfully');
+            })
+
+        fetchAddress()
+            .then(() => {
+                console.log('Address fetched successfully');
             })
     })
 
@@ -98,7 +122,7 @@ const AddressEdit = () => {
                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i className="fas fa-road text-gray-500" />
                                     </div>
-                                    <input type="text" id="street" name="street" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter street address" defaultValue="123 Main St" required />
+                                    <input type="text" id="street" name="street" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter street address" defaultValue="123 Main St" required value={street} onChange={(e) => setStreet(e.target.value)} />
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
@@ -108,7 +132,7 @@ const AddressEdit = () => {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="fas fa-city text-gray-500" />
                                         </div>
-                                        <input type="text" id="city" name="city" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter city" defaultValue="New York" required />
+                                        <input type="text" id="city" name="city" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter city" defaultValue="New York" required value={city} onChange={(e) => setCity(e.target.value)} />
                                     </div>
                                 </div>
                                 <div>
@@ -117,7 +141,7 @@ const AddressEdit = () => {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="fas fa-map text-gray-500" />
                                         </div>
-                                        <input type="text" id="province" name="province" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter province or state" defaultValue="NY" required />
+                                        <input type="text" id="province" name="province" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter province or state" defaultValue="NY" required value={province} onChange={(e) => setProvince(e.target.value)} />
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +152,7 @@ const AddressEdit = () => {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="fas fa-flag text-gray-500" />
                                         </div>
-                                        <input type="text" id="country" name="country" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter country" defaultValue="USA" required />
+                                        <input type="text" id="country" name="country" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter country" defaultValue="USA" required value={country} onChange={(e) => setCountry(e.target.value)} />
                                     </div>
                                 </div>
                                 <div>
@@ -137,7 +161,7 @@ const AddressEdit = () => {
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="fas fa-mail-bulk text-gray-500" />
                                         </div>
-                                        <input type="text" id="postal_code" name="postal_code" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter postal code" defaultValue={10001} required />
+                                        <input type="text" id="postal_code" name="postal_code" className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" placeholder="Enter postal code" defaultValue={10001} required value={postal_code} onChange={(e) => setPostalCode(e.target.value)} />
                                     </div>
                                 </div>
                             </div>
