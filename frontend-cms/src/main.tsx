@@ -13,7 +13,6 @@ import ContactEdit from './components/Contact/ContactEdit'
 import ContactDetail from './components/Contact/ContactDetail'
 import AddressCreate from './components/Address/AddressCreate'
 import AddressEdit from './components/Address/AddressEdit'
-import index from './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
