@@ -63,18 +63,18 @@ const AddressEdit = () => {
 
     const fetchAddress = async () => {
         const response = await addressesDetail(token, id, addressId);
-        const reponseBody = await response.json();
-        console.log(reponseBody);
+        const responseBody = await response.json();
+        console.log(responseBody);
 
 
         if (response.status === 200) {
-            setStreet(reponseBody.data.street);
-            setCity(reponseBody.data.city);
-            setProvince(reponseBody.data.province);
-            setCountry(reponseBody.data.country);
-            setPostalCode(reponseBody.data.postal_code);
+            setStreet(responseBody.data.street);
+            setCity(responseBody.data.city);
+            setProvince(responseBody.data.province);
+            setCountry(responseBody.data.country);
+            setPostalCode(responseBody.data.postal_code);
         } else {
-            await alertError(reponseBody.errors);
+            await alertError(responseBody.errors);
         }
     }
 
