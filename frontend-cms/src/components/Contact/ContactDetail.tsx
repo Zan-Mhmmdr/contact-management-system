@@ -147,8 +147,8 @@ const ContactDetail = () => {
                                                     <span className="font-medium w-24">{label}:</span>
                                                     <span>{value}</span>
                                                 </p>
-                                            ))}      
                                         </div>
+                                            ))}      
                                         <div className="flex justify-end space-x-3">
                                             <Link to={`/dashboard/contacts/${contact.id}/addresses/${address.id}/edit`} className="px-4 py-2 bg-gradient text-white rounded-lg">
 
