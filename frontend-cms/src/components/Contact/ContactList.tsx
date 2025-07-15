@@ -37,7 +37,6 @@ const ContactList = () => {
     const fetchContacts = async () => {
         const response = await contactList(token, { name, email, phone, page });
         const responseBody = await response.json()
-        console.log(responseBody)
 
         if (response.status === 200) {
             setContacts(responseBody.data);
@@ -54,7 +53,6 @@ const ContactList = () => {
 
         const response = await contactDelete(token, contactId);
         const responseBody = await response.json()
-        console.log(responseBody)
 
         if (response.status === 200) {
             await alertSuccess('Contact deleted successfully!')

@@ -31,7 +31,6 @@ const ContactEdit = () => {
 
         const response = await contactUpdate(token, { id: parseInt(id), first_name, last_name, email, phone });
         const responseBody = await response.json();
-        console.log(responseBody);
 
         if (response.status === 200) {
             await alertSuccess('Contact updated successfully');

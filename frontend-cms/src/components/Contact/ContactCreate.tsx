@@ -32,7 +32,6 @@ const ContactCreate = () => {
         try {
             const response = await contactCreate(token, dataContact)
             const responseBody = await response.json()
-            console.log(responseBody)
 
             if (response.status === 200 || response.status === 201) {
                 setFirstName('')
