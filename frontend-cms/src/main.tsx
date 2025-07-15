@@ -24,12 +24,10 @@ createRoot(document.getElementById('root')!).render(
           <Route path='/login' element={<UserLogin />} />
         </Route>
         <Route path='/dashboard' element={<DashboardLayout />}>
-
           <Route path='users'>
             <Route path='profile' element={<UserProfile />} />
             <Route path='logout' element={<UserLogout />} />
           </Route>
-
           <Route path='contacts'>
             <Route index element={<ContactList />} />
             <Route path='create' element={<ContactCreate />} />
@@ -42,7 +40,6 @@ createRoot(document.getElementById('root')!).render(
               </Route>
             </Route>
           </Route>
-
         </Route>
       </Routes>
     </BrowserRouter>
