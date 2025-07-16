@@ -113,6 +113,7 @@ const ContactDetail = () => {
                                 <h3 className="text-xl font-semibold text-white">Addresses</h3>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
                                 {/* Add Address Card */}
                                 <div className="bg-gray-700 bg-opacity-50 p-5 rounded-lg border-2 border-dashed border-gray-600 shadow-md card-hover">
                                     <Link to={`/dashboard/contacts/${id}/addresses/create`} className="block h-full">
@@ -134,6 +135,7 @@ const ContactDetail = () => {
                                             </div>
                                             <h4 className="text-lg font-semibold text-white">Home Address</h4>
                                         </div>
+
                                         <div className="space-y-3 text-gray-300 ml-2 mb-4">
                                             {[
                                                 { label: "Street", value: address.street, icon: "fa-road" },
@@ -147,14 +149,20 @@ const ContactDetail = () => {
                                                     <span className="font-medium w-24">{label}:</span>
                                                     <span>{value}</span>
                                                 </p>
+                                            ))}
                                         </div>
-                                            ))}      
-                                        <div className="flex justify-end space-x-3">
-                                            <Link to={`/dashboard/contacts/${contact.id}/addresses/${address.id}/edit`} className="px-4 py-2 bg-gradient text-white rounded-lg">
 
+                                        <div className="flex justify-end space-x-3">
+                                            <Link
+                                                to={`/dashboard/contacts/${contact.id}/addresses/${address.id}/edit`}
+                                                className="px-4 py-2 bg-gradient text-white rounded-lg"
+                                            >
                                                 <i className="fas fa-edit mr-2" /> Edit
                                             </Link>
-                                            <button onClick={() => handleDeleteAddress(address.id)} className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg hover:opacity-90 font-medium shadow-md flex items-center">
+                                            <button
+                                                onClick={() => handleDeleteAddress(address.id)}
+                                                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg hover:opacity-90 font-medium shadow-md flex items-center"
+                                            >
                                                 <i className="fas fa-trash-alt mr-2" /> Delete
                                             </button>
                                         </div>
@@ -168,10 +176,14 @@ const ContactDetail = () => {
                             <Link to="/dashboard/contacts" className="px-5 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 shadow-md flex items-center">
                                 <i className="fas fa-arrow-left mr-2" /> Back
                             </Link>
-                            <Link to={`/dashboard/contacts/${id}/edit`} className="px-5 py-3 bg-gradient text-white rounded-lg hover:opacity-90 font-medium shadow-lg transform hover:-translate-y-0.5 flex items-center">
+                            <Link
+                                to={`/dashboard/contacts/${id}/edit`}
+                                className="px-5 py-3 bg-gradient text-white rounded-lg hover:opacity-90 font-medium shadow-lg transform hover:-translate-y-0.5 flex items-center"
+                            >
                                 <i className="fas fa-user-edit mr-2" /> Edit Contact
                             </Link>
                         </div>
+
                     </div>
                 </div>
             </div>
