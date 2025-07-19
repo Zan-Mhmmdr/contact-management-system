@@ -50,7 +50,7 @@ const AddressCreate = () => {
 
         if (response.status === 200) {
             setContact(responseBody.data);
-            await alertSuccess('Contact fetched successfully!');
+            console.log('Contact fetched:', responseBody.data);
         } else {
             await alertError(responseBody.errors);
         }
