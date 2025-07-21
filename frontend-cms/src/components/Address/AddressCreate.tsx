@@ -29,7 +29,6 @@ const AddressCreate = () => {
 
         const response = await addressesCreate(token, id, update)
         const responseBody = await response.json();
-        console.log(responseBody);
 
         if (response.status === 200) {
             setStreet('');
@@ -46,7 +45,6 @@ const AddressCreate = () => {
     const fetchContact = async () => {
         const response = await contactDetail(token, id);
         const responseBody = await response.json();
-        console.log(responseBody);
 
         if (response.status === 200) {
             setContact(responseBody.data);
