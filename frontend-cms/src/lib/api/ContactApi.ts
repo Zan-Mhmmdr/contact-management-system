@@ -13,7 +13,7 @@ type contactListData = {
     page?: number;
 };
 
-
+// [POST] Create a new contact
 export const contactCreate = async (token: any, contact: dataContact) => {
     return await fetch(`${import.meta.env.VITE_API_PATH}/contacts`, {
         method: 'POST',
@@ -25,6 +25,8 @@ export const contactCreate = async (token: any, contact: dataContact) => {
     }
     )
 }
+
+// [PUT] Update an existing contact
 export const contactUpdate = async( token: any, contact: dataContact) => {
     return await fetch(`${import.meta.env.VITE_API_PATH}/contacts/${contact.id}`, {
         method: 'PUT',
@@ -37,6 +39,7 @@ export const contactUpdate = async( token: any, contact: dataContact) => {
     )
 }
 
+// [GET] Retrieve list of contacts (with optional filters)
 export const contactList = async (token: any, contact: contactListData) => {
     const url = new URL(`${import.meta.env.VITE_API_PATH}/contacts`);
 
@@ -54,6 +57,7 @@ export const contactList = async (token: any, contact: contactListData) => {
     });
 };
 
+// [DELETE] Delete a contact by ID
 export const contactDelete = async (token: any, contactId: number) => {
     return await fetch(`${import.meta.env.VITE_API_PATH}/contacts/${contactId}`, {
         method: 'DELETE',
@@ -63,6 +67,8 @@ export const contactDelete = async (token: any, contactId: number) => {
         }
     })
 }
+
+// [GET] Get contact details by ID
 export const contactDetail = async (token: any, contactId: number) => {
     return await fetch(`${import.meta.env.VITE_API_PATH}/contacts/${contactId}`, {
         method: 'GET',

@@ -15,7 +15,7 @@ type AddressUpdate = {
     country?: string;
 }
 
-
+// [POST] Create a new address for a contact
 export const addressesCreate = async (token: any, id: any, Address: AddressCreate) => {
     return fetch(`${import.meta.env.VITE_API_PATH}/contacts/${id}/addresses`, {
         method: 'POST',
@@ -28,7 +28,7 @@ export const addressesCreate = async (token: any, id: any, Address: AddressCreat
     })
 }
 
-
+// [GET] List all addresses for a contact
 export const addressesList = async (token: any, id: any) => {
     return fetch(`${import.meta.env.VITE_API_PATH}/contacts/${id}/addresses`, {
         method: 'GET',
@@ -40,6 +40,7 @@ export const addressesList = async (token: any, id: any) => {
     })
 }
 
+// [GET] Get detail of a specific address by ID
 export const addressesDetail = async (token: any, id: any, addressId: any) => {
     return fetch(`${import.meta.env.VITE_API_PATH}/contacts/${id}/addresses/${addressId}`, {
         method: 'GET',
@@ -51,6 +52,7 @@ export const addressesDetail = async (token: any, id: any, addressId: any) => {
     })
 }
 
+// [PUT] Update a specific address of a contact
 export const addressUpdate = async (token: any, id: any, AddressUpdate: AddressUpdate) => {
     return fetch(`${import.meta.env.VITE_API_PATH}/contacts/${id}/addresses/${AddressUpdate.id}`, {
         method: 'PUT',
@@ -63,6 +65,7 @@ export const addressUpdate = async (token: any, id: any, AddressUpdate: AddressU
     })
 }
 
+// [DELETE] Delete a specific address from a contact
 export const addressDelete = async (token: any, id: any, addressId: any) => {
     return fetch(`${import.meta.env.VITE_API_PATH}/contacts/${id}/addresses/${addressId}`, {
         method: 'DELETE',
