@@ -22,7 +22,7 @@ const AddressEdit = () => {
         street,
         city,
         province,
-        postal_code,
+        postal_code: Number(postal_code),
         country,
     }
 
@@ -38,7 +38,7 @@ const AddressEdit = () => {
             setCity('');
             setProvince('');
             setCountry('');
-            setPostalCode(0);
+            setPostalCode('');
             await alertSuccess('Address created successfully!');
             await navigate({
                 pathname: `/dashboard/contacts/${id}`,
