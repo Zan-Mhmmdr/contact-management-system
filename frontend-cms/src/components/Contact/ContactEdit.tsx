@@ -30,9 +30,14 @@ const ContactEdit = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (!token || !id) return;
+    e.preventDefault();
 
+    if (!token || !id) {
+        alertError("Missing token or contact ID.");
+        return;
+    }
+
+    try {
         const response = await contactUpdate(token, {
             id: Number(id),
             first_name: firstName,
@@ -41,14 +46,19 @@ const ContactEdit = () => {
             phone,
         });
 
-        const responseBody = await response.json();
+        const data = await response.json();
 
         if (response.ok) {
-            await alertSuccess('Contact updated successfully');
+            alertSuccess("Contact updated successfully");
         } else {
-            await alertError(responseBody.errors);
+            alertError(data.errors || "Failed to update contact.");
         }
-    };
+    } catch (error) {
+        console.error("Update error:", error);
+        alertError("Something went wrong while updating the contact.");
+    }
+};
+
 
     useEffectOnce(() => {
         fetchContact();
