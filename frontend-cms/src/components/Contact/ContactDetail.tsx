@@ -21,15 +21,22 @@ const ContactDetail = () => {
     }
   };
 
-  const fetchAddress = async () => {
+const fetchAddress = async () => {
+  try {
     const response = await addressesList(token, id);
-    const responseBody = await response.json();
-    if (response.status === 200) {
-      setAddresses(responseBody.data);
+    const data = await response.json();
+
+    if (response.ok) {
+      setAddresses(data.data || []);
     } else {
-      await alertError(responseBody.errors);
+      alertError(data.errors || "Failed to fetch addresses.");
     }
-  };
+  } catch (error) {
+    console.error("Error fetching addresses:", error);
+    alertError("An unexpected error occurred while fetching addresses.");
+  }
+};
+
 
   const handleDeleteAddress = async (addressId: string) => {
     try {
