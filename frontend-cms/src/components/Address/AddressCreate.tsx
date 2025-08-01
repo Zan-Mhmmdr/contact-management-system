@@ -25,12 +25,13 @@ const AddressCreate = () => {
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        const response = await addressesCreate(token, id, update)
+    try {
+        const response = await addressesCreate(token, id, update);
         const responseBody = await response.json();
 
-        if (response.status === 200) {
+        if (response.ok) {
             setStreet('');
             setCity('');
             setProvince('');
@@ -38,9 +39,14 @@ const AddressCreate = () => {
             setPostalCode(0);
             await alertSuccess('Address updated successfully!');
         } else {
-            await alertError(responseBody.errors)
+            await alertError(responseBody.errors || 'Failed to update address.');
         }
+    } catch (error) {
+        await alertError('An unexpected error occurred.');
+        console.error(error);
     }
+};
+
 
     const fetchContact = async () => {
         const response = await contactDetail(token, id);
