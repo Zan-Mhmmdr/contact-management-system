@@ -4,33 +4,33 @@ import { alertError } from "../../lib/alert";
 import { useNavigate } from "react-router";
 
 const UserLogout = () => {
+  const [token, setToken] = useLocalStorage("token", "");
+  const navigate = useNavigate();
 
-    const [token, setToken] = useLocalStorage('token', '')
-    const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      const response = await userLogout(token);
+      const responseBody = await response.json();
 
-    const handleLogout = async () => {
-        const response = await userLogout(token)
-        const responseBody = await response.json()
-        console.log(responseBody)
+      console.log(responseBody);
 
-        if (response.status === 200) {
-            setToken('')
-            await navigate({
-                pathname: '/login'
-            })
-        } else {
-            await alertError(responseBody.errors)
-        }
+      if (response.status === 200) {
+        setToken(""); // Clear token first
+        navigate("/login"); // No need to await
+      } else {
+        alertError(responseBody.errors);
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+      alertError("An unexpected error occurred during logout.");
     }
+  };
 
-    useEffectOnce(() => {
-        handleLogout()
-            .then(() => console.log("User logged out successfully"))
-    })
+  useEffectOnce(() => {
+    handleLogout().then(() => console.log("User logged out successfully"));
+  });
 
-    return (
-        <></>
-    )
-}
+  return <></>;
+};
 
 export default UserLogout;
