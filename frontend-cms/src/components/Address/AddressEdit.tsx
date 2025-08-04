@@ -56,14 +56,21 @@ const AddressEdit = () => {
   };
 
   const fetchContact = async () => {
-    const response = await contactDetail(token, id);
-    const responseBody = await response.json();
-    console.log(responseBody);
+    try {
+      const response = await contactDetail(token, id);
+      const responseBody = await response.json();
+      console.log(responseBody);
 
-    if (response.status === 200) {
-      setContact(responseBody.data);
-    } else {
-      await alertError(responseBody.errors);
+      if (response.ok) {
+        setContact(responseBody.data);
+      } else {
+        await alertError(
+          responseBody.errors || "An error occurred while fetching contact."
+        );
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      await alertError("Network or server error. Please try again later.");
     }
   };
 
