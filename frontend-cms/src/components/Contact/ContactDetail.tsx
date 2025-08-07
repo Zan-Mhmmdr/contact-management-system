@@ -12,31 +12,36 @@ const ContactDetail = () => {
   const [addresses, setAddresses] = useState<any[]>([]);
 
   const fetchContact = async () => {
-    const response = await contactDetail(token, id);
-    const responseBody = await response.json();
-    if (response.status === 200) {
-      setContact(responseBody.data);
-    } else {
-      await alertError(responseBody.errors);
+    try {
+      const response = await contactDetail(token, id);
+      const responseBody = await response.json();
+
+      if (response.status === 200) {
+        setContact(responseBody.data);
+      } else {
+        await alertError(responseBody.errors);
+      }
+    } catch (error) {
+      await alertError("An unexpected error occurred while fetching contact.");
+      console.error("Fetch contact failed:", error);
     }
   };
 
-const fetchAddress = async () => {
-  try {
-    const response = await addressesList(token, id);
-    const data = await response.json();
+  const fetchAddress = async () => {
+    try {
+      const response = await addressesList(token, id);
+      const data = await response.json();
 
-    if (response.ok) {
-      setAddresses(data.data || []);
-    } else {
-      alertError(data.errors || "Failed to fetch addresses.");
+      if (response.ok) {
+        setAddresses(data.data || []);
+      } else {
+        alertError(data.errors || "Failed to fetch addresses.");
+      }
+    } catch (error) {
+      console.error("Error fetching addresses:", error);
+      alertError("An unexpected error occurred while fetching addresses.");
     }
-  } catch (error) {
-    console.error("Error fetching addresses:", error);
-    alertError("An unexpected error occurred while fetching addresses.");
-  }
-};
-
+  };
 
   const handleDeleteAddress = async (addressId: string) => {
     try {
