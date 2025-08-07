@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { contactDetail } from "../../lib/api/ContactApi";
 import { useEffectOnce, useLocalStorage } from "react-use";
-import { alertConfirm, alertError } from "../../lib/alert";
+import { alertConfirm, alertError, alertSuccess } from "../../lib/alert";
 import { addressDelete, addressesList } from "../../lib/api/AddressesApi";
 
 const ContactDetail = () => {
@@ -54,7 +54,7 @@ const ContactDetail = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alertConfirm("Address deleted successfully"); // Consider using alertSuccess here
+        await alertSuccess("Address deleted successfully");
         fetchAddress();
       } else {
         alertError(data.errors || "Failed to delete address.");
