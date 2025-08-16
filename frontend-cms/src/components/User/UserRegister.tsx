@@ -57,52 +57,28 @@ const UserRegister = () => {
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-        <div className="mb-4">
-          <label
-            htmlFor="name"
-            className="block text-gray-300 text-sm font-medium mb-2"
-          >
-            Full Name
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i className="fas fa-id-card text-gray-500" />
-            </div>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-              placeholder="Enter your full name"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="password"
-            className="block text-gray-300 text-sm font-medium mb-2"
-          >
-            Password
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i className="fas fa-lock text-gray-500" />
-            </div>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-              placeholder="Create a password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-        </div>
+        <InputWithIcon
+          type="text"
+          id="name"
+          label="Full Name"
+          placeholder="Enter your full name"
+          iconClass="fas fa-id-card "
+          name="name"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          required
+        />
+        <InputWithIcon
+          id="password"
+          label="Password"
+          name="password"
+          iconClass="fas fa-lock"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          placeholder="Create a password"
+          type="password"
+          required
+        />
         <div className="mb-6">
           <label
             htmlFor="confirm_password"
