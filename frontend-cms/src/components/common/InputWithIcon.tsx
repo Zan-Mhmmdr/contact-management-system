@@ -8,6 +8,7 @@ interface InputWithIconProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   label: string;
+  wrapperClassname?: string;
 }
 
 const InputWithIcon = ({
@@ -20,9 +21,10 @@ const InputWithIcon = ({
   onChange,
   required = false,
   label,
+  wrapperClassname = "mb-4",
 }: InputWithIconProps) => {
   return (
-    <div className="mb-4">
+    <div className={wrapperClassname}>
       <label
         htmlFor={id}
         className="block text-gray-300 text-sm font-medium mb-2"
