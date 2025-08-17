@@ -52,7 +52,7 @@ const UserRegister = () => {
           name="username"
           label="Username"
           iconClass="fas fa-user"
-          placeholder="Choose a username"
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -88,7 +88,6 @@ const UserRegister = () => {
           name="confirm_password"
           placeholder="Confirm your password"
           required
-          value="confirmPassword"
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <div className="mb-6">

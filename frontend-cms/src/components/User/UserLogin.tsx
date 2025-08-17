@@ -10,6 +10,7 @@ const UserLogin = () => {
   const [password, setPassword] = useState("");
   const [_, setToken] = useLocalStorage("token", "");
   const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -43,14 +44,13 @@ const UserLogin = () => {
           <p className="text-gray-300 mt-2">Sign in to your account</p>
         </div>
         <form onSubmit={handleSubmit}>
-
           <InputWithIcon
             wrapperClassname="mb-5"
             id="username"
             label="Username"
             iconClass="fas fa-user"
             name="username"
-            placeholder="placeholder"
+            placeholder="Username"
             required
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -68,7 +68,7 @@ const UserLogin = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          
+
           <div className="mb-6">
             <button
               type="submit"

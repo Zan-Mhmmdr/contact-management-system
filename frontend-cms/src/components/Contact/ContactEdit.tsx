@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import { contactDetail, contactUpdate } from "../../lib/api/ContactApi";
 import { useEffectOnce, useLocalStorage } from "react-use";
 import { alertError, alertSuccess } from "../../lib/alert";

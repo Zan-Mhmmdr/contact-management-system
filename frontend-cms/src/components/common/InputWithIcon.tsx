@@ -4,7 +4,7 @@ interface InputWithIconProps {
   type?: string;
   iconClass: string;
   placeholder?: string;
-  value: string;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   label: string;
@@ -12,16 +12,16 @@ interface InputWithIconProps {
 }
 
 const InputWithIcon = ({
+  wrapperClassname = "mb-4",
   id,
-  name,
-  type = "text",
+  label,
   iconClass,
+  type = "text",
+  name,
   placeholder,
+  required = false,
   value,
   onChange,
-  required = false,
-  label,
-  wrapperClassname = "mb-4",
 }: InputWithIconProps) => {
   return (
     <div className={wrapperClassname}>
