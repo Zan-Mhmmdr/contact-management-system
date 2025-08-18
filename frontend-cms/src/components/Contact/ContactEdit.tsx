@@ -4,6 +4,7 @@ import { contactDetail, contactUpdate } from "../../lib/api/ContactApi";
 import { useEffectOnce, useLocalStorage } from "react-use";
 import { alertError, alertSuccess } from "../../lib/alert";
 import InputWithIcon from "../common/InputWithIcon";
+import HeaderWithIcon from "../common/HeaderWithIcon";
 
 const ContactEdit = () => {
   const { id } = useParams<{ id: string }>();
@@ -71,17 +72,12 @@ const ContactEdit = () => {
 
   return (
     <div>
-      <div className="flex items-center mb-6">
-        <Link
-          to="/dashboard/contacts"
-          className="text-blue-400 hover:text-blue-300 mr-4 flex items-center transition-colors duration-200"
-        >
-          <i className="fas fa-arrow-left mr-2" /> Back to Contacts
-        </Link>
-        <h1 className="text-2xl font-bold text-white flex items-center">
-          <i className="fas fa-user-edit text-blue-400 mr-3" /> Edit Contact
-        </h1>
-      </div>
+      <HeaderWithIcon
+        backTo="/dashboard/contacts"
+        iconClass="fas fa-user-edit"
+        backText="Contacts"
+        title="Edit Contact"
+      />
       <div className="bg-gray-800 bg-opacity-80 rounded-xl shadow-custom border border-gray-700 overflow-hidden max-w-2xl mx-auto animate-fade-in">
         <div className="p-8">
           <form onSubmit={handleSubmit}>
