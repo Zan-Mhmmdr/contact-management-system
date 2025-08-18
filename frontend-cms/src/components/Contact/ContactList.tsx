@@ -3,6 +3,7 @@ import { useEffectOnce, useLocalStorage } from "react-use";
 import { contactDelete, contactList } from "../../lib/api/ContactApi";
 import { alertConfirm, alertError, alertSuccess } from "../../lib/alert";
 import { Link } from "react-router";
+import InputWithIcon from "../common/InputWithIcon";
 
 const ContactList = () => {
   const [token, _] = useLocalStorage("token");
@@ -146,72 +147,42 @@ const ContactList = () => {
           <div id="searchFormContent" className="mt-4">
             <form onSubmit={handleSearchContacts}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <div>
-                  <label
-                    htmlFor="search_name"
-                    className="block text-gray-300 text-sm font-medium mb-2"
-                  >
-                    Name
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-user text-gray-500" />
-                    </div>
-                    <input
-                      type="text"
-                      id="search_name"
-                      name="search_name"
-                      className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                      placeholder="Search by name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="search_email"
-                    className="block text-gray-300 text-sm font-medium mb-2"
-                  >
-                    Email
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-envelope text-gray-500" />
-                    </div>
-                    <input
-                      type="text"
-                      id="search_email"
-                      name="search_email"
-                      className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                      placeholder="Search by email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="search_phone"
-                    className="block text-gray-300 text-sm font-medium mb-2"
-                  >
-                    Phone
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-phone text-gray-500" />
-                    </div>
-                    <input
-                      type="text"
-                      id="search_phone"
-                      name="search_phone"
-                      className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                      placeholder="Search by phone"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                    />
-                  </div>
-                </div>
+                <InputWithIcon
+                  wrapperClassname=""
+                  id="search_name"
+                  label="Name"
+                  iconClass="fas fa-user"
+                  name="search_name"
+                  placeholder="Search by name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  type="text"
+                />
+                <InputWithIcon
+                  wrapperClassname=""
+                  id="search_email"
+                  label="Email"
+                  iconClass="fas fa-envelope"
+                  name="search_email"
+                  placeholder="Search by email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  type="text"
+                />
+                <InputWithIcon
+                  wrapperClassname=""
+                  id="search_phone"
+                  label="Phone"
+                  iconClass="fas fa-phone"
+                  name="search_phone"
+                  placeholder="Search by phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                  type="text"
+                />
               </div>
               <div className="mt-5 text-right">
                 <button

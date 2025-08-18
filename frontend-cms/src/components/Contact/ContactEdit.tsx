@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router";
 import { contactDetail, contactUpdate } from "../../lib/api/ContactApi";
 import { useEffectOnce, useLocalStorage } from "react-use";
 import { alertError, alertSuccess } from "../../lib/alert";
+import InputWithIcon from "../common/InputWithIcon";
 
 const ContactEdit = () => {
   const { id } = useParams<{ id: string }>();
@@ -154,29 +155,18 @@ const InputField = ({
   onChange,
   type = "text",
 }: InputFieldProps) => (
-  <div className="mb-5">
-    <label
-      htmlFor={id}
-      className="block text-gray-300 text-sm font-medium mb-2"
-    >
-      {label}
-    </label>
-    <div className="relative">
-      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <i className={`${icon} text-gray-500`} />
-      </div>
-      <input
-        type={type}
-        id={id}
-        name={id}
-        className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-        placeholder={`Enter ${label.toLowerCase()}`}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required
-      />
-    </div>
-  </div>
+  <InputWithIcon
+    iconClass={icon}
+    label={label}
+    id={id}
+    wrapperClassname="mb-5"
+    name={id}
+    onChange={(e) => onChange(e.target.value)}
+    placeholder={`Enter ${label.toLowerCase()}`}
+    required
+    type={type}
+    value={value}
+  />
 );
 
 export default ContactEdit;
