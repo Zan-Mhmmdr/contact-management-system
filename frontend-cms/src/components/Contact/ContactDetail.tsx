@@ -4,6 +4,7 @@ import { contactDetail } from "../../lib/api/ContactApi";
 import { useEffectOnce, useLocalStorage } from "react-use";
 import { alertConfirm, alertError, alertSuccess } from "../../lib/alert";
 import { addressDelete, addressesList } from "../../lib/api/AddressesApi";
+import HeaderWithIcon from "../common/HeaderWithIcon";
 
 const ContactDetail = () => {
   const { id } = useParams();
@@ -79,17 +80,13 @@ const ContactDetail = () => {
     <>
       <div>
         {/* Header */}
-        <div className="flex items-center mb-6">
-          <Link
-            to="/dashboard/contacts"
-            className="text-blue-400 hover:text-blue-300 mr-4 flex items-center transition-colors duration-200"
-          >
-            <i className="fas fa-arrow-left mr-2" /> Back to Contacts
-          </Link>
-          <h1 className="text-2xl font-bold text-white flex items-center">
-            <i className="fas fa-id-card text-blue-400 mr-3" /> Contact Details
-          </h1>
-        </div>
+        <HeaderWithIcon
+          backTo="/dashboard/contacts"
+          iconClass="fas fa-id-card"
+          backText="Contacts"
+          title="Contact Details"
+        />
+     
 
         {/* Main Container */}
         <div className="bg-gray-800 bg-opacity-80 rounded-xl shadow-custom border border-gray-700 overflow-hidden max-w-2xl mx-auto animate-fade-in">

@@ -56,7 +56,7 @@ const ContactCreate = () => {
       <div>
         <HeaderWithIcon
           backText="Contacts"
-          iconClass="fas fa-arrow-left"
+          iconClass="fas fa-user-plus"
           backTo="/dashboard/contacts"
           title="Create New Contacts"
         />
