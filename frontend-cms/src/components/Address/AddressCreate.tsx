@@ -4,6 +4,7 @@ import { useEffectOnce, useLocalStorage } from "react-use";
 import { contactDetail } from "../../lib/api/ContactApi";
 import { addressesCreate } from "../../lib/api/AddressesApi";
 import { alertError, alertSuccess } from "../../lib/alert";
+import InputWithIcon from "../common/InputWithIcon";
 
 interface Contact {
   first_name?: string;
@@ -114,29 +115,18 @@ const AddressCreate = () => {
             </div>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="mb-5">
-              <label
-                htmlFor="street"
-                className="block text-gray-300 text-sm font-medium mb-2"
-              >
-                Street
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <i className="fas fa-road text-gray-500" />
-                </div>
-                <input
-                  type="text"
-                  id="street"
-                  name="street"
-                  className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                  placeholder="Enter street address"
-                  required
-                  value={form.street}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+            <InputWithIcon 
+            wrapperClassname="mb-5"
+            id="street"
+            label="Street"
+            iconClass="fas fa-road"
+            name="street"
+            type="text"
+            placeholder="Enter street address"
+            required
+            value={form.street}
+            onChange={handleChange}
+            />
             {/* city & province */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
               {["city", "province"].map((field) => (

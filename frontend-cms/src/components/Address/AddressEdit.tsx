@@ -4,6 +4,7 @@ import { useEffectOnce, useLocalStorage } from "react-use";
 import { alertError, alertSuccess } from "../../lib/alert";
 import { contactDetail } from "../../lib/api/ContactApi";
 import { addressesDetail, addressUpdate } from "../../lib/api/AddressesApi";
+import InputWithIcon from "../common/InputWithIcon";
 
 const AddressEdit = () => {
   const { id, addressId } = useParams();
@@ -16,20 +17,21 @@ const AddressEdit = () => {
   const [token, _] = useLocalStorage("token");
   const navigate = useNavigate();
 
-  const AddressUpdate = {
-    id: addressId,
-    street,
-    city,
-    province,
-    postal_code: Number(postal_code),
-    country,
-  };
+const updatedAddressData = {
+  id: addressId,
+  street,
+  city,
+  province,
+  postal_code: Number(postal_code),
+  country,
+};
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const response = await addressUpdate(token, id, AddressUpdate);
+      const response = await addressUpdate(token, id, updatedAddressData);
       const responseBody = await response.json();
       console.log(responseBody);
 
@@ -45,6 +47,7 @@ const AddressEdit = () => {
 
         // No need to await navigation unless it’s a custom async function
         navigate(`/dashboard/contacts/${id}`);
+        
       } else {
         const errorMessage = responseBody?.errors || "Something went wrong.";
         await alertError(errorMessage);
@@ -134,129 +137,73 @@ const AddressEdit = () => {
               </div>
             </div>
             <form onSubmit={handleSubmit}>
-              <div className="mb-5">
-                <label
-                  htmlFor="street"
-                  className="block text-gray-300 text-sm font-medium mb-2"
-                >
-                  Street
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i className="fas fa-road text-gray-500" />
-                  </div>
-                  <input
-                    type="text"
-                    id="street"
-                    name="street"
-                    className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                    placeholder="Enter street address"
-                    defaultValue="123 Main St"
-                    required
-                    value={street}
-                    onChange={(e) => setStreet(e.target.value)}
-                  />
-                </div>
-              </div>
+              <InputWithIcon
+                wrapperClassname="mb-5"
+                label="Street"
+                iconClass="fas fa-road"
+                name="street"
+                placeholder="Enter street address"
+                required
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+                id="street"
+                type="text"
+              />
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-                <div>
-                  <label
-                    htmlFor="city"
-                    className="block text-gray-300 text-sm font-medium mb-2"
-                  >
-                    City
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-city text-gray-500" />
-                    </div>
-                    <input
-                      type="text"
-                      id="city"
-                      name="city"
-                      className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                      placeholder="Enter city"
-                      defaultValue="New York"
-                      required
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="province"
-                    className="block text-gray-300 text-sm font-medium mb-2"
-                  >
-                    Province/State
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-map text-gray-500" />
-                    </div>
-                    <input
-                      type="text"
-                      id="province"
-                      name="province"
-                      className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                      placeholder="Enter province or state"
-                      defaultValue="NY"
-                      required
-                      value={province}
-                      onChange={(e) => setProvince(e.target.value)}
-                    />
-                  </div>
-                </div>
+                <InputWithIcon
+                  wrapperClassname=""
+                  label="City"
+                  id="city"
+                  iconClass="fas fa-city"
+                  name="city"
+                  placeholder="Enter city"
+                  required
+                  type="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+
+                <InputWithIcon
+                  wrapperClassname=""
+                  id="province"
+                  label="Province/State"
+                  iconClass="fas fa-map"
+                  type="text"
+                  name="province"
+                  placeholder="Enter province or state"
+                  required
+                  value={province}
+                  onChange={(e) => setProvince(e.target.value)}
+                />
               </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
-                <div>
-                  <label
-                    htmlFor="country"
-                    className="block text-gray-300 text-sm font-medium mb-2"
-                  >
-                    Country
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-flag text-gray-500" />
-                    </div>
-                    <input
-                      type="text"
-                      id="country"
-                      name="country"
-                      className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                      placeholder="Enter country"
-                      defaultValue="USA"
-                      required
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="postal_code"
-                    className="block text-gray-300 text-sm font-medium mb-2"
-                  >
-                    Postal Code
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-mail-bulk text-gray-500" />
-                    </div>
-                    <input
-                      type="text"
-                      id="postal_code"
-                      name="postal_code"
-                      className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                      placeholder="Enter postal code"
-                      defaultValue={10001}
-                      required
-                      value={postal_code}
-                      onChange={(e) => setPostalCode(e.target.value)}
-                    />
-                  </div>
-                </div>
+                <InputWithIcon
+                  wrapperClassname=""
+                  id="country"
+                  label="Country"
+                  iconClass="fas fa-flag"
+                  type="text"
+                  name="country"
+                  placeholder="Enter country"
+                  required
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                />
+                <InputWithIcon
+                  wrapperClassname=""
+                  id="postal_code"
+                  label="Postal Code"
+                  iconClass="fas fa-mail-bulk"
+                  type="text"
+                  name="postal_code"
+                  placeholder="Enter postal code"
+                  required
+                  value={postal_code}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                />
+             
               </div>
               <div className="flex justify-end space-x-4">
                 <Link
