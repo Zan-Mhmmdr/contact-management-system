@@ -61,7 +61,7 @@ export const addressUpdate = async (token: any, id: any, AddressUpdate: AddressU
             'Accept': 'application/json',
             'Authorization': token,
         },
-        body: JSON.stringify(addressUpdate)
+        body: JSON.stringify(AddressUpdate)
     })
 }
 

@@ -22,7 +22,7 @@ const updatedAddressData = {
   street,
   city,
   province,
-  postal_code: Number(postal_code),
+  postal_code: postal_code,
   country,
 };
 
