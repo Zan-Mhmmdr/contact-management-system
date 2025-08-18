@@ -67,13 +67,13 @@ export const userUpdatePassword = async (token: any, password: string) => {
 };
 
 // Fungsi untuk logout pengguna
-export const userLogout = async (token: any) => {
+export const userLogout = async (token: string) => {
   return await fetch(`${import.meta.env.VITE_API_PATH}/users/logout`, {
-    method: "DELETE", // Gunakan DELETE untuk keluar/menghapus sesi
+    method: "DELETE",
     headers: {
-      "content-type": "application/json",
+      "Content-Type": "application/json",
       Accept: "application/json",
-      // Tidak ada Authorization di sini, seharusnya mungkin ada tergantung dari API Anda
+      Authorization: `Bearer ${token}`, // Penting untuk otentikasi
     },
   });
 };
