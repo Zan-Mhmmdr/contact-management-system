@@ -5,6 +5,7 @@ import { contactDetail } from "../../lib/api/ContactApi";
 import { addressesCreate } from "../../lib/api/AddressesApi";
 import { alertError, alertSuccess } from "../../lib/alert";
 import InputWithIcon from "../common/InputWithIcon";
+import HeaderWithIcon from "../common/HeaderWithIcon";
 
 interface Contact {
   first_name?: string;
@@ -85,18 +86,13 @@ const AddressCreate = () => {
 
   return (
     <div>
-      <div className="flex items-center mb-6">
-        <Link
-          to={`/dashboard/contacts/${id}`}
-          className="text-blue-400 hover:text-blue-300 mr-4 flex items-center transition-colors duration-200"
-        >
-          <i className="fas fa-arrow-left mr-2" /> Back to Contact Details
-        </Link>
-        <h1 className="text-2xl font-bold text-white flex items-center">
-          <i className="fas fa-plus-circle text-blue-400 mr-3" /> Add New
-          Address
-        </h1>
-      </div>
+      <HeaderWithIcon
+        backTo={`/dashboard/contacts/${id}`}
+        iconClass="fas fa-plus-circle"
+        backText="Contact Details"
+        title="Add New
+          Address"
+      />
       <div className="bg-gray-800 bg-opacity-80 rounded-xl shadow-custom border border-gray-700 overflow-hidden max-w-2xl mx-auto animate-fade-in">
         <div className="p-8">
           <div className="mb-6 pb-6 border-b border-gray-700">
@@ -115,17 +111,17 @@ const AddressCreate = () => {
             </div>
           </div>
           <form onSubmit={handleSubmit}>
-            <InputWithIcon 
-            wrapperClassname="mb-5"
-            id="street"
-            label="Street"
-            iconClass="fas fa-road"
-            name="street"
-            type="text"
-            placeholder="Enter street address"
-            required
-            value={form.street}
-            onChange={handleChange}
+            <InputWithIcon
+              wrapperClassname="mb-5"
+              id="street"
+              label="Street"
+              iconClass="fas fa-road"
+              name="street"
+              type="text"
+              placeholder="Enter street address"
+              required
+              value={form.street}
+              onChange={handleChange}
             />
             {/* city & province */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
