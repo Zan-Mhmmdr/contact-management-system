@@ -69,53 +69,30 @@ const ContactCreate = () => {
           <div className="p-8">
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-                
-                <div>
-                  <label
-                    htmlFor="first_name"
-                    className="block text-gray-300 text-sm font-medium mb-2"
-                  >
-                    First Name
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-user-tag text-gray-500" />
-                    </div>
-                    <input
-                      type="text"
-                      id="first_name"
-                      name="first_name"
-                      className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                      placeholder="Enter first name"
-                      required
-                      value={first_name}
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="last_name"
-                    className="block text-gray-300 text-sm font-medium mb-2"
-                  >
-                    Last Name
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-user-tag text-gray-500" />
-                    </div>
-                    <input
-                      type="text"
-                      id="last_name"
-                      name="last_name"
-                      className="w-full pl-10 pr-3 py-3 bg-gray-700 bg-opacity-50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                      placeholder="Enter last name"
-                      required
-                      value={last_name}
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                  </div>
-                </div>
+                <InputWithIcon
+                  wrapperClassname=""
+                  id="first_name"
+                  label="First Name"
+                  iconClass="fas fa-user-tag"
+                  type="text"
+                  name="first_name"
+                  placeholder="Enter first name"
+                  required
+                  value={first_name}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                <InputWithIcon
+                  wrapperClassname=""
+                  id="last_name"
+                  label="Last Name"
+                  iconClass="fas fa-user-tag"
+                  type="text"
+                  name="last_name"
+                  placeholder="Enter last name"
+                  required
+                  value={last_name}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
               </div>
               <InputWithIcon
                 iconClass="fas fa-envelope"
@@ -139,7 +116,7 @@ const ContactCreate = () => {
                 required
                 name="phone"
               />
-           
+
               <div className="flex justify-end space-x-4">
                 <a
                   href="dashboard.html"
